@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { ClaudeAgentSdkRuntimeClient } from "../src/providers/claude-agent-sdk-runtime-client.js";
 
 describe("isolated semantic completion", () => {
-  it("uses existing authentication with no tools, hooks, settings, or persisted conversation", async () => {
+  it("uses existing authentication with no tools, hooks, project/local settings, or persisted conversation", async () => {
     let options: any;
     let closed = false;
     const client = new ClaudeAgentSdkRuntimeClient({
@@ -20,7 +20,7 @@ describe("isolated semantic completion", () => {
     expect(options.strictMcpConfig).toBe(true);
     expect(options.plugins).toEqual([]);
     expect(options.settings.disableAllHooks).toBe(true);
-    expect(options.settingSources).toEqual([]);
+    expect(options.settingSources).toEqual(["user"]);
     expect(options.hooks).toEqual({});
     expect(options.persistSession).toBe(false);
     expect(options.resume).toBeUndefined();
