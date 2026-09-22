@@ -793,7 +793,7 @@ describe("ClaudeAgentSdkRuntimeClient", () => {
         return makeModelProbe([
           {
             value: "default",
-            resolvedModel: "claude-opus-5[1m]",
+            resolvedModel: "claude-opus-5-5[1m]",
             displayName: "Default",
             description: "Current account default",
             supportsEffort: true,
@@ -803,7 +803,7 @@ describe("ClaudeAgentSdkRuntimeClient", () => {
             supportsAutoMode: true,
           },
           {
-            value: "claude-fable-5[1m]",
+            value: "claude-fable-5-1[1m]",
             displayName: "Fable",
             description: "Future model family",
           },
@@ -825,7 +825,7 @@ describe("ClaudeAgentSdkRuntimeClient", () => {
     expect(first).toEqual([
       {
         value: "default",
-        resolvedModel: "claude-opus-5[1m]",
+        resolvedModel: "claude-opus-5-5[1m]",
         displayName: "Default",
         description: "Current account default",
         supportsEffort: true,
@@ -835,7 +835,7 @@ describe("ClaudeAgentSdkRuntimeClient", () => {
         supportsAutoMode: true,
       },
       {
-        value: "claude-fable-5[1m]",
+        value: "claude-fable-5-1[1m]",
         displayName: "Fable",
         description: "Future model family",
       },

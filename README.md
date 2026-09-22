@@ -157,11 +157,11 @@ The response keeps the legacy `models` string array and adds structured `modelIn
 
 ```json
 {
-  "models": ["default", "opus[1m]", "claude-fable-5[1m]"],
+  "models": ["default", "opus[1m]", "claude-fable-5-1[1m]"],
   "modelInfos": [
     {
       "value": "default",
-      "resolvedModel": "claude-opus-5[1m]",
+      "resolvedModel": "claude-opus-5-5[1m]",
       "displayName": "Default",
       "description": "Current account default",
       "supportsEffort": true,

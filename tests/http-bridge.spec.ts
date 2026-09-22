@@ -141,7 +141,7 @@ describe("http bridge server", () => {
         return [
           {
             value: "default",
-            resolvedModel: "claude-opus-5[1m]",
+            resolvedModel: "claude-opus-5-5[1m]",
             displayName: "Default",
             description: "Current account default",
             supportsEffort: true,
@@ -151,7 +151,7 @@ describe("http bridge server", () => {
             supportsAutoMode: true,
           },
           {
-            value: "claude-fable-5[1m]",
+            value: "claude-fable-5-1[1m]",
             displayName: "Fable",
           },
           "LegacyProvider/Model-X",
@@ -172,11 +172,11 @@ describe("http bridge server", () => {
       );
       expect(response.ok).toBe(true);
       expect(await response.json()).toEqual({
-        models: ["default", "claude-fable-5[1m]", "LegacyProvider/Model-X"],
+        models: ["default", "claude-fable-5-1[1m]", "LegacyProvider/Model-X"],
         modelInfos: [
           {
             value: "default",
-            resolvedModel: "claude-opus-5[1m]",
+            resolvedModel: "claude-opus-5-5[1m]",
             displayName: "Default",
             description: "Current account default",
             supportsEffort: true,
@@ -186,7 +186,7 @@ describe("http bridge server", () => {
             supportsAutoMode: true,
           },
           {
-            value: "claude-fable-5[1m]",
+            value: "claude-fable-5-1[1m]",
             displayName: "Fable",
           },
           {

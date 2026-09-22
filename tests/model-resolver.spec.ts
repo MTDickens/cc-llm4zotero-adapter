@@ -34,7 +34,7 @@ describe("model resolver", () => {
       { value: "default" },
       { value: "sonnet" },
       { value: "haiku" },
-      { value: "claude-fable-5[1m]" },
+      { value: "claude-fable-5-1[1m]" },
     ];
     expect(resolveModelAlias("opus", issueCatalog)).toBe("opus");
   });
