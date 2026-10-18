@@ -9,7 +9,7 @@ import { readFile } from "node:fs/promises";
 import { mkdirSync } from "node:fs";
 import { isAbsolute, relative, resolve } from "node:path";
 import { createHash, randomUUID } from "node:crypto";
-import type { ClaudeCodeRuntimeClient, McpServerStatus, ProviderEvent, RuntimeModelInfo, RuntimePermissionModeCatalog, RuntimeTurnRequest, RuntimeTurnStream } from "../runtime.js";
+import type { ClaudeCodeRuntimeClient, McpServerStatus, ProviderEvent, RuntimeAccountQuota, RuntimeAccountQuotaOptions, RuntimeModelInfo, RuntimePermissionModeCatalog, RuntimeTurnRequest, RuntimeTurnStream } from "../runtime.js";
 import { mapSdkMessageToProviderEvents } from "../event-mapper/map-sdk-message.js";
 import { globalPermissionStore } from "../permissions/permission-store.js";
 import type { PermissionResult } from "../permissions/permission-store.js";
@@ -23,6 +23,7 @@ import {
 import { getCachedModels, normalizeProviderModelName, setCachedModels } from "./model-resolver.js";
 import { newestClaudeExecutable } from "./claude-executable.js";
 import { createHotRuntimeTurn, HotRuntimePool, type HotRuntimeEntry, type HotRuntimeTurn } from "./hotRuntimePool.js";
+import { probeAccountQuota } from "./account-quota.js";
 
 type QueryFunction = (args: {
   prompt: string | AsyncIterable<SDKUserMessage>;
@@ -1910,6 +1911,26 @@ export class ClaudeAgentSdkRuntimeClient implements ClaudeCodeRuntimeClient {
         permissionEvents.close();
       }
     })();
+  }
+
+  async getAccountQuota(
+    options?: RuntimeAccountQuotaOptions,
+  ): Promise<RuntimeAccountQuota | null> {
+    const query = this.options.queryImpl ?? (await this.loadQuery());
+    return probeAccountQuota((prompt) =>
+      query({
+        prompt,
+        options: {
+          cwd: this.resolveCatalogCwd(options?.runtimeCwdRelative),
+          settingSources: options?.settingSources ?? this.options.settingSources ?? ["user", "project", "local"],
+          settings: { disableAllHooks: true },
+          tools: [],
+          mcpServers: {},
+          strictMcpConfig: true,
+          persistSession: false,
+        },
+      }),
+    );
   }
 
   async listModels(options?: {
