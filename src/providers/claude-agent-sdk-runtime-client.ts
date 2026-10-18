@@ -21,6 +21,7 @@ import {
   validateLocalPdfs,
 } from "../local-pdf.js";
 import { getCachedModels, normalizeProviderModelName, setCachedModels } from "./model-resolver.js";
+import { newestClaudeExecutable } from "./claude-executable.js";
 import { createHotRuntimeTurn, HotRuntimePool, type HotRuntimeEntry, type HotRuntimeTurn } from "./hotRuntimePool.js";
 
 type QueryFunction = (args: {
@@ -2511,7 +2512,14 @@ export class ClaudeAgentSdkRuntimeClient implements ClaudeCodeRuntimeClient {
   private async loadQuery(): Promise<QueryFunction> {
     const sdk = (await import("@anthropic-ai/claude-agent-sdk")) as { query: QueryFunction };
     if (typeof sdk.query !== "function") throw new Error("@anthropic-ai/claude-agent-sdk does not export query()");
-    return sdk.query;
+    const pathToClaudeCodeExecutable = await newestClaudeExecutable();
+    return (args) => sdk.query({
+      ...args,
+      options: {
+        ...args.options,
+        ...(pathToClaudeCodeExecutable ? { pathToClaudeCodeExecutable } : {}),
+      },
+    });
   }
 
   private resolveCatalogCwd(runtimeCwdRelative?: string): string {

@@ -150,6 +150,15 @@ Returns Claude slash commands.
 
 Returns the ordered model catalog reported by Claude Code for the active settings stack.
 
+The adapter compares installed Claude Code versions in `PATH`, `~/.local/bin`,
+and the SDK's native package and uses the newest for both model discovery and
+conversations. Version discovery is cached for up to one minute. Updating the
+local CLI with `claude update` therefore also updates the runtime used here;
+restart the bridge and refresh the model catalog to apply it immediately.
+If no executable can be identified, the SDK uses its default executable.
+This selects the newest installed version; it does not install updates or
+override your selected model or provider settings.
+
 - Query: `settingSources=user,project,local` (optional)
 - Query: `conversationKey`, `scopeType`, `scopeId`, `scopeLabel` (optional; use together to discover models from the same scoped conversation directory as a turn)
 
